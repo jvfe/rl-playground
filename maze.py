@@ -5,6 +5,18 @@ class Agent:
         self.i = i
         self.j = j
 
+    @property
+    def loc(self):
+        return(self.i, self.j)
+
+    def vmove(self, direction):
+        direction = 1 if direction > 0 else -1
+        Agent(self.i + direction, self.j)
+
+    def hmove(self, direction):
+        direction = 1 if direction > 0 else -1
+        Agent(self.i, self.j + direction)
+        
 class Maze:
     def __init__(self, rows=4, columns=4):
         self.env = np.zeros((4,4))
@@ -12,7 +24,7 @@ class Maze:
 
     def in_bounds(self, i, j):
         nr, nc = self.env.shape
-        return i > 0 and i < nr and j > 0 and j < nc
+        return i >= 0 and i < nr and j >= 0 and j < nc
 
     def visualize(self):
         e = self.env.copy()
@@ -32,5 +44,6 @@ def make_test_maze():
 
 if __name__ == '__main__':
     m = make_test_maze() 
-    m.mouse.i = 1
+    m.mouse = m.mouse.hmove(-1)
     m.visualize()
+
